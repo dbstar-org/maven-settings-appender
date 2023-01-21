@@ -1,0 +1,10 @@
+name: 'Modify settings.xml for Maven Builds'
+description: 'Customize ~/.m2/settings.xml'
+inputs:
+  repositories:
+    description: 'json array of repositories to add to settings.xml'
+runs:
+  using: 'composite'
+  steps:
+    - run: cat '${{ inputs.repositories }}'
+      shell: bash
