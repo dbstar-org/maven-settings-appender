@@ -6,5 +6,5 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - run: cat '${{ inputs.repositories }}'
+    - run: echo '${{ inputs.repositories }}'
       shell: bash
