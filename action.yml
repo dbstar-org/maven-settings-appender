@@ -11,11 +11,9 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - run: ls -l
-      shell: bash
     - if: inputs.repositories != ''
-      run: ./appender.sh ${{ inputs.settings-file }} repositories '${{ inputs.repositories }}' 
+      run: appender.sh ${{ inputs.settings-file }} repositories '${{ inputs.repositories }}' 
       shell: bash
     - if: inputs.servers != ''
-      run: ./appender.sh ${{ inputs.settings-file }} servers '${{ inputs.servers }}' 
+      run: appender.sh ${{ inputs.settings-file }} servers '${{ inputs.servers }}' 
       shell: bash
