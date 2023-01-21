@@ -6,10 +6,14 @@ inputs:
     default: '~/.m2/settings.xml'
   repositories:
     description: 'repositories to add to settings.xml.'
+  servers:
+    description: 'servers to add to settings.xml.'
 runs:
   using: 'composite'
   steps:
-    - run: grep -n '  </repositories>' ${{ inputs.settings-file }} 
+    - if: inputs.repositories != ''
+      run: appender.sh ${{ inputs.settings-file }} repositories '${{ inputs.repositories }}' 
       shell: bash
-    - run: grep -n '  </servers>' ${{ inputs.settings-file }} 
+    - if: inputs.servers != ''
+      run: appender.sh ${{ inputs.settings-file }} servers '${{ inputs.servers }}' 
       shell: bash
