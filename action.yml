@@ -1,10 +1,15 @@
 name: 'Modify settings.xml for Maven Builds'
 description: 'Customize ~/.m2/settings.xml'
 inputs:
+  settings-file:
+    description: 'path of settings.xml file to customized.'
+    default: '~/.m2/settings.xml'
   repositories:
-    description: 'json array of repositories to add to settings.xml'
+    description: 'repositories to add to settings.xml.'
 runs:
   using: 'composite'
   steps:
-    - run: sed 's/<\/repositories>/${{ inputs.repositories }}\n  <\/repositories>/' ~/.m2/settings.xml 
+    - run: grep -n '  </repositories>' ${{ inputs.settings-file }} 
+      shell: bash
+    - run: grep -n '  </servers>' ${{ inputs.settings-file }} 
       shell: bash
