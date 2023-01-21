@@ -6,5 +6,5 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - run: echo '${{ inputs.repositories }}'
+    - run: sed 's/<\/repositories>/${{ inputs.repositories }}\n  <\/repositories>/' ~/.m2/settings.xml 
       shell: bash
