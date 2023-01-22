@@ -5,23 +5,23 @@ ITEM=$2
 CONTENT=$3
 
 findLineNumber() {
-  echo grep -n "$2" "$1"
-  lines=$(grep -c "$2" "$1")
-  echo $lines
-  if [ $lines -eq 0 ]; then
-    return 0
-  elif [ $lines -ne 1 ]; then
-    return -1
-  else
-    return $(grep -n "$2" "$1" | awk -F ':' '{print $1}')
-  fi
+  case $(grep -c "$2" "$1") in
+    0)
+      return 0
+      ;;
+    1)
+      grep -n "$2" "$1" | awk -F ':' '{print $1}'
+      return 0
+      ;;
+    *)
+      return 1
+  esac
 }
 
-echo "add to $ITEM use: $CONTENT"
-findLineNumber "$SETTINGS_FILE" "^<\/settings>$"
-echo $?
-findLineNumber "$SETTINGS_FILE" "^  <\/$ITEM>$"
-echo $?
-findLineNumber "$SETTINGS_FILE" "settings"
-echo $?
+lines=$(findLineNumber "$SETTINGS_FILE" "^  <\/$ITEM>$")
+echo "$?: $lines"
+
+lines=$(findLineNumber "$SETTINGS_FILE" "^<\/settings>$")
+echo "$?: $lines"
+
 echo 'ok!'
