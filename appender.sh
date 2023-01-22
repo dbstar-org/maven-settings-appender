@@ -24,11 +24,11 @@ NEW_SETTINGS_FILE=${SETTINGS_FILE}-$(echo $RANDOM)
 echo "new settings.xml is $NEW_SETTINGS_FILE"
 
 lines=$(findLineNumber "$SETTINGS_FILE" "^  <\/$ITEM>$") || exit 1
-if [ '' == '$lines' ]; then
+if [ -z "$lines" ]; then
   echo "[<$ITEM>] not exist in $SETTINGS_FILE, created."
 
   lines=$(findLineNumber "$SETTINGS_FILE" "^<\/settings>$") || exit 1
-  if [ '' == '$lines' ]; then
+  if [ -z "$lines" ]; then
     echo "[<settings>] not found in $SETTINGS_FILE, exited."
     exit 2
   fi
