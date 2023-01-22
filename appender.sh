@@ -1,7 +1,6 @@
 #!/bin/bash
 
 SETTINGS_FILE=$1
-SETTINGS_PATH=$(dirname "$SETTINGS_FILE")
 ITEM=$2
 CONTENT=$3
 
@@ -20,8 +19,11 @@ findLineNumber() {
   esac
 }
 
+LINES_OF_SETTINGS_FILE=$(wc -l "$SETTINGS_FILE" | awk '{print $1}')
+echo "lines of $SETTINGS_FILE is: $LINES_OF_SETTINGS_FILE"
+
 NEW_SETTINGS_FILE=${SETTINGS_FILE}-$(echo $RANDOM)
-echo "new settings.xml is $NEW_SETTINGS_FILE"
+echo "create new temp settings.xml: $NEW_SETTINGS_FILE"
 
 lines=$(findLineNumber "$SETTINGS_FILE" "^  <\/$ITEM>$") || exit 1
 if [ -z "$lines" ]; then
@@ -36,13 +38,13 @@ if [ -z "$lines" ]; then
   head -n $(expr "$lines" - 1) $SETTINGS_FILE >$NEW_SETTINGS_FILE
   echo "  <$ITEM>" >>$NEW_SETTINGS_FILE
   echo "$CONTENT" >>$NEW_SETTINGS_FILE
-  echo "  <\/$ITEM>" >>$NEW_SETTINGS_FILE
-  tail -n $(expr `wc -l $SETTINGS_FILE | awk '{print $1}'` - "$lines") $SETTINGS_FILE >>$NEW_SETTINGS_FILE
+  echo "  </$ITEM>" >>$NEW_SETTINGS_FILE
+  tail -n $(expr "$LINES_OF_SETTINGS_FILE" - "$lines" + 1) $SETTINGS_FILE >>$NEW_SETTINGS_FILE
 else
-  echo "find [<$ITEM>] at [$lines] lines in $SETTINGS_FILE."
+  echo "find [<$ITEM>] at [$lines] line in $SETTINGS_FILE."
   head -n $(expr "$lines" - 1) $SETTINGS_FILE >$NEW_SETTINGS_FILE
   echo "$CONTENT" >>$NEW_SETTINGS_FILE
-  tail -n $(expr `wc -l $SETTINGS_FILE | awk '{print $1}'` - "$lines") $SETTINGS_FILE >>$NEW_SETTINGS_FILE
+  tail -n $(expr "$LINES_OF_SETTINGS_FILE" - "$lines" + 1) $SETTINGS_FILE >>$NEW_SETTINGS_FILE
 fi
 
-cat "$NEW_SETTINGS_FILE"
+cat -n "$NEW_SETTINGS_FILE"
