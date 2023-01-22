@@ -22,6 +22,6 @@ findLineNumber "$SETTINGS_FILE" "^<\/settings>$"
 echo $?
 findLineNumber "$SETTINGS_FILE" "^  <\/$ITEM>$"
 echo $?
-findLineNumber "$SETTINGS_FILE" "settings>"
+findLineNumber "$SETTINGS_FILE" "settings"
 echo $?
 echo 'ok!'
