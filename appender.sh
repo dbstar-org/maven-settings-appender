@@ -14,7 +14,7 @@ findLineNumber() {
       return 0
       ;;
     *)
-      echo "find more then one [$2] in $1" > &2
+      echo "find more then one [$2] in $1" >&2
       return 1
   esac
 }
