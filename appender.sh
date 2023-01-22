@@ -21,9 +21,6 @@ findLineNumber() {
 
 cat -n "$SETTINGS_FILE"
 
-LINES_OF_SETTINGS_FILE=$(wc -l "$SETTINGS_FILE" | awk '{print $1}')
-echo "lines of $SETTINGS_FILE is: $LINES_OF_SETTINGS_FILE"
-
 NEW_SETTINGS_FILE=${SETTINGS_FILE}-$(echo $RANDOM)
 echo "create new temp settings.xml: $NEW_SETTINGS_FILE"
 
@@ -41,13 +38,12 @@ if [ -z "$lines" ]; then
   echo "  <$ITEM>" >>$NEW_SETTINGS_FILE
   echo "$CONTENT" >>$NEW_SETTINGS_FILE
   echo "  </$ITEM>" >>$NEW_SETTINGS_FILE
-  tail -n $(expr "$LINES_OF_SETTINGS_FILE" - "$lines" + 1) $SETTINGS_FILE >>$NEW_SETTINGS_FILE
+  tail -n +$lines $SETTINGS_FILE >>$NEW_SETTINGS_FILE
 else
   echo "find [<$ITEM>] at [$lines] line in $SETTINGS_FILE."
-  sed "${lines}i\\$CONTENT" $SETTINGS_FILE
-#  head -n $(expr "$lines" - 1) $SETTINGS_FILE >$NEW_SETTINGS_FILE
-#  echo "$CONTENT" >>$NEW_SETTINGS_FILE
-#  tail -n $(expr "$LINES_OF_SETTINGS_FILE" - "$lines" + 1) $SETTINGS_FILE >>$NEW_SETTINGS_FILE
+  head -n $(expr "$lines" - 1) $SETTINGS_FILE >$NEW_SETTINGS_FILE
+  echo "$CONTENT" >>$NEW_SETTINGS_FILE
+  tail -n +$lines $SETTINGS_FILE >>$NEW_SETTINGS_FILE
 fi
 
 cat -n "$NEW_SETTINGS_FILE"
