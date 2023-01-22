@@ -18,16 +18,13 @@ findLineNumber() {
   esac
 }
 
-lines=$(findLineNumber "$SETTINGS_FILE" "^  <\/$ITEM>$")
-$? || exit 1
+lines=$(findLineNumber "$SETTINGS_FILE" "^  <\/$ITEM>$") || exit 1
 echo "$?: $lines"
 
-lines=$(findLineNumber "$SETTINGS_FILE" "^<\/settings>$")
-$? || exit 1
+lines=$(findLineNumber "$SETTINGS_FILE" "^<\/settings>$") || exit 1
 echo "$?: $lines"
 
-lines=$(findLineNumber "$SETTINGS_FILE" "settings")
-$? || exit 1
+lines=$(findLineNumber "$SETTINGS_FILE" "settings") || exit 1
 echo "$?: $lines"
 
 echo 'ok!'
