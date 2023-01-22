@@ -12,7 +12,7 @@ findLineNumber() {
   elif [ $lines -ne 1 ]; then
     return -1
   else
-    expr $(grep -n "$2" "$1" | awk -F ':' '{print $1}')
+    return $(grep -n "$2" "$1" | awk -F ':' '{print $1}')
   fi
 }
 
