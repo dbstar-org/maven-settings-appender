@@ -19,8 +19,6 @@ findLineNumber() {
   esac
 }
 
-cat -n "$SETTINGS_FILE"
-
 NEW_SETTINGS_FILE=${SETTINGS_FILE}-$(echo $RANDOM)
 echo "create new temp settings.xml: $NEW_SETTINGS_FILE"
 
@@ -36,13 +34,13 @@ if [ -z "$lines" ]; then
   echo "find [<settings>] at [$lines] lines in $SETTINGS_FILE."
   head -n $(expr "$lines" - 1) $SETTINGS_FILE >$NEW_SETTINGS_FILE
   echo "  <$ITEM>" >>$NEW_SETTINGS_FILE
-  echo "$CONTENT" >>$NEW_SETTINGS_FILE
+  echo "$CONTENT" | awk '{print "    "$0}' >>$NEW_SETTINGS_FILE
   echo "  </$ITEM>" >>$NEW_SETTINGS_FILE
   tail -n +$lines $SETTINGS_FILE >>$NEW_SETTINGS_FILE
 else
   echo "find [<$ITEM>] at [$lines] line in $SETTINGS_FILE."
   head -n $(expr "$lines" - 1) $SETTINGS_FILE >$NEW_SETTINGS_FILE
-  echo "$CONTENT" >>$NEW_SETTINGS_FILE
+  echo "$CONTENT" | awk '{print "    "$0}' >>$NEW_SETTINGS_FILE
   tail -n +$lines $SETTINGS_FILE >>$NEW_SETTINGS_FILE
 fi
 
