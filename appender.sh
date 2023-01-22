@@ -1,10 +1,15 @@
+#!/bin/bash
+
 SETTINGS_FILE=$1
 ITEM=$2
 CONTENT=$3
 
+findLineNumber() {
+  echo grep -n "$2" "$1"
+  grep -n "$2" "$1"
+}
+
 echo "add to $ITEM use: $CONTENT"
-echo grep -n "^<\/settings>$" "$SETTINGS_FILE"
-grep -n "^<\/settings>$" "$SETTINGS_FILE"
-echo grep -n "^  <\/$ITEM>$" "$SETTINGS_FILE"
-grep -n "^  <\/$ITEM>$" "$SETTINGS_FILE"
+findLineNumber "$SETTINGS_FILE" "^<\/settings>$"
+findLineNumber "$SETTINGS_FILE" "^  <\/$ITEM>$"
 echo 'ok!'
