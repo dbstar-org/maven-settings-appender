@@ -44,9 +44,10 @@ if [ -z "$lines" ]; then
   tail -n $(expr "$LINES_OF_SETTINGS_FILE" - "$lines" + 1) $SETTINGS_FILE >>$NEW_SETTINGS_FILE
 else
   echo "find [<$ITEM>] at [$lines] line in $SETTINGS_FILE."
-  head -n $(expr "$lines" - 1) $SETTINGS_FILE >$NEW_SETTINGS_FILE
-  echo "$CONTENT" >>$NEW_SETTINGS_FILE
-  tail -n $(expr "$LINES_OF_SETTINGS_FILE" - "$lines" + 1) $SETTINGS_FILE >>$NEW_SETTINGS_FILE
+  sed "${lines}i\\$CONTENT" $SETTINGS_FILE
+#  head -n $(expr "$lines" - 1) $SETTINGS_FILE >$NEW_SETTINGS_FILE
+#  echo "$CONTENT" >>$NEW_SETTINGS_FILE
+#  tail -n $(expr "$LINES_OF_SETTINGS_FILE" - "$lines" + 1) $SETTINGS_FILE >>$NEW_SETTINGS_FILE
 fi
 
 cat -n "$NEW_SETTINGS_FILE"
