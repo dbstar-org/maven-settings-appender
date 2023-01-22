@@ -7,6 +7,7 @@ CONTENT=$3
 findLineNumber() {
   echo grep -n "$2" "$1"
   lines=$(grep -c "$2" "$1")
+  echo $lines
   if [ $lines -eq 0 ]; then
     return 0
   elif [ $lines -ne 1 ]; then
