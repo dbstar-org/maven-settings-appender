@@ -19,6 +19,8 @@ findLineNumber() {
   esac
 }
 
+cat -n "$SETTINGS_FILE"
+
 LINES_OF_SETTINGS_FILE=$(wc -l "$SETTINGS_FILE" | awk '{print $1}')
 echo "lines of $SETTINGS_FILE is: $LINES_OF_SETTINGS_FILE"
 
