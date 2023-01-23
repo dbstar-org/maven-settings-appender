@@ -4,18 +4,23 @@ inputs:
   settings-file:
     description: 'path of settings.xml file to customized.'
     default: '~/.m2/settings.xml'
-  repositories:
-    description: 'repositories to add to settings.xml.'
   servers:
     description: 'servers to add to settings.xml.'
+  profiles:
+    description: 'profiles to add to settings.xml'
+  active-profiles:
+    description: 'active profiles to add to settings.xml'
 runs:
   using: 'composite'
   steps:
     - run: echo "${{ github.action_path }}" >> $GITHUB_PATH
       shell: bash
-    - if: inputs.repositories != ''
-      run: appender.sh ${{ inputs.settings-file }} repositories '${{ inputs.repositories }}' 
-      shell: bash
     - if: inputs.servers != ''
       run: appender.sh ${{ inputs.settings-file }} servers '${{ inputs.servers }}' 
+      shell: bash
+    - if: inputs.profiles != ''
+      run: appender.sh ${{ inputs.settings-file }} profiles '${{ inputs.profiles }}' 
+      shell: bash
+    - if: inputs.active-profiles != ''
+      run: appender.sh ${{ inputs.settings-file }} activeProfiles '${{ inputs.active-profiles }}' 
       shell: bash
