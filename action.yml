@@ -4,6 +4,8 @@ inputs:
   settings-file:
     description: 'path of settings.xml file to customized.'
     default: '~/.m2/settings.xml'
+  local:
+    description: 'local repository to add to settings.xml'
   servers:
     description: 'servers to add to settings.xml.'
   profiles:
@@ -14,6 +16,9 @@ runs:
   using: 'composite'
   steps:
     - run: echo "${{ github.action_path }}" >> $GITHUB_PATH
+      shell: bash
+    - if: inputs.local != ''
+      run: appender.sh ${{ inputs.settings-file }} localRepository '${{ inputs.local }}' 
       shell: bash
     - if: inputs.servers != ''
       run: appender.sh ${{ inputs.settings-file }} servers '${{ inputs.servers }}' 
